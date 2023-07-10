@@ -33,14 +33,15 @@
         <tr>
             <th>Card ID</th>
             <th>Credit</th>
-            <th>Enabled</th>
+            <th>State</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each = "card : ${cards}">
-            <td th:text="${card.getId()}"> Card ID </td>
-            <td th:text="${card.getCredit()+' €'}"> Credit </td>
-            <td th:text="${card.getEnabled()}"> Enabled </td>
+            <td th:text="${card.getId()}"></td>
+            <td th:text="${card.getCredit()+' €'}"></td>
+            <td th:if="${card.getEnabled()}" style="color:green">enabled</td>
+            <td th:if="${card.getEnabled()==false}" style="color:red">disabled</td>
         </tr>
         </tbody>
     </table>

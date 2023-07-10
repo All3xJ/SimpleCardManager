@@ -33,6 +33,7 @@
             <th>User ID</th>
             <th>Username</th>
             <th>Role</th>
+            <th>State</th>
         </tr>
         </thead>
         <tbody>
@@ -40,6 +41,8 @@
             <td th:text="${user.getId()}"></td>
             <td th:text="${user.getUsername()}"></td>
             <td th:text="${user.getRole()}"></td>
+            <td th:if="${user.isEnabled()}" style="color:green">enabled</td>
+            <td th:if="${user.isEnabled()==false}" style="color:red">disabled</td>
         </tr>
         </tbody>
     </table>
