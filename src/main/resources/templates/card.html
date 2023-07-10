@@ -21,14 +21,14 @@
     <a href="/admin/cardlist" sec:authorize="hasRole('ROLE_ADMIN')">List of cards</a>
     <a href="/logout" sec:authorize="isAuthenticated()" class="logout-button">Logout</a>
 </div>
-  <div class="container" th:if="${cardSearchOutcome == 'ok'}">
+  <div class="container" th:if="${cardSearchOutcome == 'ok'}">  <!-- se dal server mando 'ok' allora è andato a buon fine e stampa le informazioni della carta -->
       <h1>Card informations</h1>
       <p><strong>Card number:</strong> <span th:text="${card.getId()}"></span></p>
       <p><strong>Credit:</strong> <span th:text="${card.getCredit()+' €'}"></span></p>
       <p th:if="${card.getEnabled()}" style="color:green"><strong>Enabled</strong></p>
       <p th:if="${card.getEnabled()==false}" style="color:red"><strong>Disabled</strong></p>
   </div>
-<div class="container" th:if="${cardSearchOutcome != 'ok'}">
+<div class="container" th:if="${cardSearchOutcome != 'ok'}">    <!-- altrimenti stampa errore -->
     <h1>Error.</h1>
     <p><strong th:text="${cardSearchOutcome == 'wrongid' ? 'Card ID not found.' : (cardSearchOutcome == 'genericerror' ? 'Generic error.' : '')}"></strong> </p>
 </div>
