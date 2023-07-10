@@ -24,12 +24,16 @@
                         cardId: cardId,
                         amount: amount
                     },
-                    success: function(responseNewCredit) {
-                        $("#message").text("Success! Card credit modified! New credit is: "+responseNewCredit+" €").removeClass("error").addClass("success");
+                    success: function(response) {
+                        resp_json = JSON.parse(response)
+                        if (resp_json.result==='ok')
+                            $("#message").text("Success! Card credit modified! New credit is: "+resp_json.newCredit+" €").removeClass("error").addClass("success");
+                        else    // se c'è stato un errore lato server, allora fa vedere l'errore:
+                            $("#message").text("An error occurred: "+resp_json.result).removeClass("success").addClass("error");
                     },
-                    error: function(xhr, status, error) {
-                        $("#message").text("An error occurred. Card must be enabled and credit must be >= 0").removeClass("success").addClass("error");
-                    }
+                    // error: function(xhr, status, error) {
+                    //     $("#message").text("An error occurred. Card must be enabled and credit must be >= 0").removeClass("success").addClass("error");
+                    // }
                 });
             });
         });

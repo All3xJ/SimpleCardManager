@@ -41,4 +41,9 @@ public class UserController {
 
         response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + "/"));  // ho una home unica (dentro la quale mostro con thymeleaf certi elementi in base al ruolo dell'utente loggato), quindi non mi serve reindirizzare a niente in particolare, quindi ho commentato la parte di sopra che inizialmente usavo ma ora non serve più
     }
+
+    @GetMapping("/access_denied")
+    public String accessDenied(){
+        return "/access_denied";
+    }
 }

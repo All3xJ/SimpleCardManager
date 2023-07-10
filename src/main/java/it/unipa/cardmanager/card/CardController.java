@@ -60,10 +60,24 @@ public class CardController {
 
     @Secured({"ROLE_MERCHANT","ROLE_ADMIN"})
     @PostMapping("/merchant/editcredit")
-    public ResponseEntity<Double> editCredit(@RequestParam(name = "cardId") Long cardNumberToEdit, @RequestParam(name = "amount") Double amount){
-        Double newCredit = this.cardService.editCredit(cardNumberToEdit,amount);   // se c'è qualche problema ad es carta è disabilitata, farà throw di IllegalStateException e jquery lato client farà sì che venga riportato l'errore
-        this.transactionService.addTransaction(cardNumberToEdit,amount);    // stesso qui se c'è una qualche eccezione jquery lato client darà errore
-        return ResponseEntity.ok(newCredit); // mi ritrovo il credito nella response che arriva a jquery lato client
+    public ResponseEntity<String> editCredit(@RequestParam(name = "cardId") Long cardNumberToEdit, @RequestParam(name = "amount") Double amount){
+
+        Double newCredit;
+        JSONObject jsonObject = new JSONObject();   // creo json
+        try {
+            newCredit = this.cardService.editCredit(cardNumberToEdit,amount);   // se c'è qualche problema ad es carta è disabilitata, farà throw di una determinata eccezione e jquery lato client farà sì che venga riportato l'errore
+            this.transactionService.addTransaction(cardNumberToEdit,amount);    // stesso qui se c'è una qualche eccezione jquery lato client darà errore
+            jsonObject.put("result","ok");
+            jsonObject.put("newCredit",newCredit);  // se tutto è andato a buon fine inserisco nel json il nuovo credito cosi che in jquery lo mostro
+        }catch(NoSuchElementException e){
+            jsonObject.put("result",e.getMessage());    // darà "Card not found"
+        }catch(IllegalStateException e){
+            jsonObject.put("result",e.getMessage());    // darà "Card must be enabled" o "Credit cannot be lower than 0"
+        }catch(RuntimeException e){
+            jsonObject.put("result", "Generic error");    // oppure un altro errore generico
+        }
+
+        return ResponseEntity.ok(jsonObject.toString()); // mi ritrovo il credito nella response che arriva a jquery lato client
     }
 
 

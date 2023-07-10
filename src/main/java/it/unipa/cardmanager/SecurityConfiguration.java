@@ -38,6 +38,8 @@ public class SecurityConfiguration {
                                 .requestMatchers("/merchant/**").hasAnyRole("MERCHANT","ADMIN")
                                 .requestMatchers("/admin/**").hasRole("ADMIN")
                                 .anyRequest().authenticated()   // authenticated fa si che basta che l'utente sia loggato per accedervi
+                ).exceptionHandling(h -> h
+                                .accessDeniedPage("/access_denied")
                 ).formLogin(
                         form -> form
                                 .loginPage("/login")

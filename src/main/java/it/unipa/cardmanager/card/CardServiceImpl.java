@@ -42,7 +42,12 @@ public class CardServiceImpl implements CardService {
 
     @Override
     public Double editCredit(Long cardId, Double amount){
-        Card cardfromdb = this.cardRepository.findById(cardId).get();   // prelevo carta dal db (sempre se esiste altrimenti lancia eccezione)
+        Card cardfromdb;
+        try {
+            cardfromdb = this.cardRepository.findById(cardId).get();   // prelevo carta dal db (sempre se esiste altrimenti lancia eccezione)
+        } catch(NoSuchElementException e) {
+            throw new NoSuchElementException("Card not found");
+        }
 
         if (cardfromdb.getEnabled()==false) // verifico se è abilitata
             throw new IllegalStateException("Card must be enabled");

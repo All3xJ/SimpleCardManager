@@ -15,10 +15,10 @@
     <div class="row">
         <div class="col-md-6 offset-md-3">
 
-            <div th:if="${param.error}">
-                <div class="alert alert-danger">Invalid Username or Password</div>
+            <div th:if="${param.error}">    <!-- se c'è stato un redirect a /login?error significa che il login è fallito e quindi questo param.error sarà true, e consente di far visualizzare l'errore SE c'è stato un errore nel login -->
+                <div class="alert alert-danger">Invalid Username or Password, or user is disabled.</div>
             </div>
-            <div th:if="${param.logout}">
+            <div th:if="${param.logout}">   <!-- se c'è stato un redirect a /login?logout significa che c'è stato logout e quindi questo param.logout sarà true, e consente di far visualizzare la scritta di avvenuto logout -->
                 <div class="alert alert-success"> You have been logged out.</div>
             </div>
 
