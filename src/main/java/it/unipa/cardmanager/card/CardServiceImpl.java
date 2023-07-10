@@ -7,6 +7,8 @@ import it.unipa.cardmanager.user.UserService;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -52,7 +54,7 @@ public class CardServiceImpl implements CardService {
         if (cardfromdb.getEnabled()==false) // verifico se è abilitata
             throw new IllegalStateException("Card must be enabled");
 
-        Double newCredit = cardfromdb.getCredit()+amount;
+        Double newCredit = this.truncate(cardfromdb.getCredit()+amount);    // faccio truncate per evitare bug che diventino numeri con piu di 2 digits oltre le 2 decimali
         cardfromdb.setCredit(newCredit);
         if (cardfromdb.getCredit()<0)   // verifico che credito non sia < 0
             throw new IllegalStateException("Credit cannot be lower than 0");
@@ -60,6 +62,14 @@ public class CardServiceImpl implements CardService {
         this.cardRepository.saveAndFlush(cardfromdb); // fa l'update nel db del nuovo credito
 
         return newCredit;
+    }
+
+    private Double truncate(Double amount){
+        DecimalFormat formato = new DecimalFormat("#.##");
+        formato.setRoundingMode(RoundingMode.DOWN);
+        String troncatoStringa = formato.format(amount);
+        double truncated = Double.parseDouble(troncatoStringa);
+        return truncated;
     }
 
 //    @Override
