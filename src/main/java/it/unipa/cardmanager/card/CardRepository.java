@@ -10,7 +10,6 @@ import java.util.List;
 
 @Repository
 public interface CardRepository extends JpaRepository<Card, Long> {
-//    @Query("SELECT c.id FROM Card c WHERE c.ownerId = :ownerId")    // si lo so sembra sbagliata ma è cosi, camelcase in java corrispondono a _ in db
-//    List<Long> findCardIdByOwnerId(@Param("ownerId") Long ownerId);
+
     Card findByOwnerId(Long ownerId);
 }

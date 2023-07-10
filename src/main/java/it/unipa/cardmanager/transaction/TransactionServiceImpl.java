@@ -15,11 +15,11 @@ import java.util.*;
 @Service
 public class TransactionServiceImpl implements TransactionService{
 
-    private TransactionRepository transactionRepository;
+    private final TransactionRepository transactionRepository;
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    private CardService cardService;
+    private final CardService cardService;
 
     public TransactionServiceImpl(TransactionRepository transactionRepository, UserRepository userRepository, CardService cardService){
         this.transactionRepository = transactionRepository;
@@ -27,8 +27,8 @@ public class TransactionServiceImpl implements TransactionService{
         this.cardService = cardService;
     }
 
-    private UserDTO getCurrentUser(){   // per ottenere utente attuale, che esso sia merchant o cardowner ecc
-        String username = SecurityContextHolder.getContext().getAuthentication().getName(); // trovo l'username  del merchant che in questo momento è loggato e ha fatto richiesta
+    private UserDTO getCurrentUser(){   // per ottenere utente attuale, che esso sia admin o merchant o cardowner
+        String username = SecurityContextHolder.getContext().getAuthentication().getName(); // trovo l'username del merchant che in questo momento è loggato e ha fatto richiesta
         User user = this.userRepository.findByUsername(username);
         return user.toDTO();
     }
@@ -37,19 +37,19 @@ public class TransactionServiceImpl implements TransactionService{
     public void addTransaction(Long cardId, Double amount) {
         SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy");
         Date date = new Date();
-        String humanDate = formatter.format(date);
-        System.out.println(humanDate);
+        String humanDate = formatter.format(date);  // trasformo in stringa
+        //System.out.println(humanDate);
         Transaction newtransaction = new Transaction();
-        newtransaction.setCard(new Card());
-        newtransaction.getCard().setId(cardId);
+        newtransaction.setCard(new Card()); // creo nuovo oggetto card
+        newtransaction.getCard().setId(cardId); // e setto id della carta in questione
         newtransaction.setMerchant(new User());
-        newtransaction.getMerchant().setId(this.getCurrentUser().getId());
+        newtransaction.getMerchant().setId(this.getCurrentUser().getId());  // stesso discorso per merchantid che sta aggiungendo questa transazione
         newtransaction.setAmount(amount);
         newtransaction.setDateCreated(date);
         this.transactionRepository.saveAndFlush(newtransaction);
     }
 
-    private List<TransactionDTO> convertTransactionListToDto(List<Transaction> transactions){
+    private List<TransactionDTO> convertTransactionListToDto(List<Transaction> transactions){   // trasforma lista di Transaction a lista di DTO
         List<TransactionDTO> transactionDTOList = new LinkedList<>();
         for (Transaction transaction: transactions)
             transactionDTOList.add(transaction.toDTO());
@@ -59,24 +59,18 @@ public class TransactionServiceImpl implements TransactionService{
 
     @Override
     public List<TransactionDTO> getAllTransactions() {
-//        List<TransactionDTO> transactions = new LinkedList<TransactionDTO>();
-//        for (Transaction transaction : this.transactionRepository.findAll()){
-//            String merchantUsername = this.userRepository.findById(transaction.getMerchant().getUsername();
-//            transactions.add(transaction.toDTO(merchantUsername));   // versione del toDTO che salva anche merchantUsername oltre agli altri attributi. cosi posso visualizzarlo nell'html
-//        }
-//        return transactions;
 
         List<TransactionDTO> sortList = this.convertTransactionListToDto(this.transactionRepository.findAll());
-        sortList.sort((tran1, tran2) -> tran2.getDateCreated().compareTo(tran1.getDateCreated()));
+        sortList.sort((tran1, tran2) -> tran2.getDateCreated().compareTo(tran1.getDateCreated()));  // faccio il sorting delle transazioni in ordine decrescente di timestamp in modo da visualizzare nell'html prima quelle piu recenti
 
         return sortList;
     }
 
     @Override
     public List<TransactionDTO> findTransactionsDoneByMerchantId() {
-        Long merchantId = this.getCurrentUser().getId();
+        Long merchantId = this.getCurrentUser().getId();    // trovo id merchant attualmente loggato che ha fatto richiesta
 
-        List<Transaction> transactions = this.transactionRepository.findByMerchant_Id(merchantId);
+        List<Transaction> transactions = this.transactionRepository.findByMerchant_Id(merchantId);  // trovo transazioni fatte da questo merchant
 
         List<TransactionDTO> sortList = this.convertTransactionListToDto(transactions);
         sortList.sort((tran1, tran2) -> tran2.getDateCreated().compareTo(tran1.getDateCreated()));
@@ -86,10 +80,11 @@ public class TransactionServiceImpl implements TransactionService{
 
     @Override
     public CardDTO findCardByLoggedOwnerId(){
-        Long cardOwnerId = this.getCurrentUser().getId();   // trovo attuale cardowner loggato
+        Long cardOwnerId = this.getCurrentUser().getId();   // trovo attuale cardowner loggato che ha fatto richiesta
         return this.cardService.findCardByOwnerId(cardOwnerId);
     }
 
+    @Override
     public List<TransactionDTO> findTransactionsByCardId(Long cardId) {
         List<Transaction> transactions = this.transactionRepository.findByCardId(cardId);
 
@@ -99,48 +94,5 @@ public class TransactionServiceImpl implements TransactionService{
         return sortList;
     }
 
-//    @Override
-//    public List<TransactionDTO> findTransactionsDoneForCardOwnerId() {
-//        Long cardOwnerId = this.getCurrentUser().getId();   // trovo attuale cardowner loggato
-//
-//        List<Transaction> transactions = this.transactionRepository.findByCardOwnerId(cardOwnerId);
-//
-//        return this.convertTransactionListToDto(transactions);
-//    }
 
-
-
-
-
-
-
-
-
-
-
-//    @Override
-//    public List<TransactionDTO> filterTransactionsDoneByMerchantId(List<TransactionDTO> transactions) {
-//        List<TransactionDTO> transactionsDoneBySpecificMerchant = new LinkedList<TransactionDTO>();
-//        for (TransactionDTO transaction : transactions){
-//            if (Objects.equals(transaction.getMerchantId(), this.getCurrentUser().getId()))
-//                transactionsDoneBySpecificMerchant.add(transaction);
-//        }
-//        return transactionsDoneBySpecificMerchant;
-//    }
-//
-//    @Override
-//    public List<TransactionDTO> filterTransactionsDoneForCardOwnerId(List<TransactionDTO> transactions) {
-//        List<TransactionDTO> transactionsDoneForCardOwnerId = new LinkedList<TransactionDTO>();
-//
-//        Long idcardOwner = this.cardService.searchCardByOwnerId(this.getCurrentUser().getId()).getId(); // carta che possiede l'attuale card owner loggato
-//
-//        for (TransactionDTO transaction : transactions){
-//            if (Objects.equals(transaction.getCardId(), idcardOwner)) {
-//                String merchantUsername = this.userRepository.findById(transaction.getMerchantId()).get().getUsername();
-//                transaction.setMerchantName(merchantUsername);  // cosi che ho anche username del merchant nel DTO Transaction in modo da poterlo visualizzare nell'html
-//                transactionsDoneForCardOwnerId.add(transaction);
-//            }
-//        }
-//        return transactionsDoneForCardOwnerId;
-//    }
 }

@@ -28,7 +28,7 @@
             <div class="card-header">
                 <h2 class="text-center">Registration</h2>
             </div>
-            <div th:if="${param.success}">
+            <div th:if="${param.success}">  <!-- se nella get arriva un ?success allora farà vedere questo:-->
                 <div class="alert alert-info">
                     Merchant successfully registered!
                 </div>
@@ -47,11 +47,11 @@
                                 id="username"
                                 name="username"
                                 placeholder="Enter username"
-                                th:field="*{username}"
+                                th:field="*{username}"  <!-- qua setto il field "username" perchè poi nel server spring se ci sono errori lo farò presente in certo modo -->
                                 type="username"
                         />
-                        <p th:errors = "*{username}" class="text-danger"
-                           th:if="${#fields.hasErrors('username')}"></p>
+                        <p th:errors = "*{username}" class="text-danger"    <!-- e appunto visualizzo errore nel relativo field (in questo caso username) -->
+                           th:if="${#fields.hasErrors('username')}"></p>    <!-- e qua inserisco la stringa d'errore che darò da spring server -->
                     </div>
 
                     <div class="form-group mb-3">

@@ -15,9 +15,9 @@ public interface CardService {
 
     JSONObject createNewCard(Double amount);
 
-    UserDTO findOwnerById(Long ownerId);
-
-    boolean checkOwnerExists(Long ownerId);
+//    UserDTO findOwnerById(Long ownerId);
+//
+//    boolean checkOwnerExists(Long ownerId);
 
     boolean blockUnblockCard(Long cardId);
 

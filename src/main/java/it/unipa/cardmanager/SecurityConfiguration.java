@@ -17,7 +17,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfiguration {
 
     @Autowired
-    private UserDetailsService userDetailsService;  // attributo che verrà inizializzato automaticamente con la nostra classe CustomUserDetailsService che implementa UserDetailsService appunto. sta classe permette di associare l'utente a un ruolo.
+    private UserDetailsService userDetailsService;  // attributo che verrà inizializzato automaticamente con la nostra classe CustomUserDetailsService che implementa UserDetailsService appunto. questa classe permette di associare l'utente a un ruolo.
 
     @Bean
     public static PasswordEncoder passwordEncoder(){
@@ -42,11 +42,11 @@ public class SecurityConfiguration {
                         form -> form
                                 .loginPage("/login")
                                 .loginProcessingUrl("/login")
-                                .defaultSuccessUrl("/success") // dove deve portarmi a login fatto
+                                .defaultSuccessUrl("/success") // dove deve portarmi a login avvenuto con successo
                                 .permitAll()
                 ).logout(
                         logout -> logout
-                                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                                .logoutRequestMatcher(new AntPathRequestMatcher("/logout")) // associa l'azione di logout alla url /logout
                                 .permitAll()
                 );
         return http.build();

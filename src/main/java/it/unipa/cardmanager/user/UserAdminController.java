@@ -20,6 +20,7 @@ public class UserAdminController {
         this.userService = userService;
     }
 
+    @Secured({"ROLE_ADMIN"})
     @GetMapping("/admin/registermerchant")
     public String showRegistrationForm(Model model){
         model.addAttribute("user", new UserDTO());
@@ -27,27 +28,30 @@ public class UserAdminController {
     }
 
     // gestisce la richiesta post all'url save, dopo che utente fa submit
+    @Secured({"ROLE_ADMIN"})
     @PostMapping("/admin/registermerchant/save")
     public String registration(@Valid @ModelAttribute("user") UserDTO userDTO,
-                               BindingResult result,
+                               BindingResult result,    // BindingResult è interfaccia che estende Errors
                                Model model){
 
         UserDTO existingUser = userService.findByUsername(userDTO.getUsername());
 
-        if(existingUser != null && existingUser.getUsername() != null && !existingUser.getUsername().isEmpty()){
-            result.rejectValue("username", null,
-                    "There is already an account registered with the same username");
+        if(existingUser != null && existingUser.getUsername() != null && !existingUser.getUsername().isEmpty()){    // se effettivamente trovo già un username uguale nel db, deve fallire
+            result.rejectValue("username", null,    // inserisco nel field di errore che elaborerà thymeleaf:
+                    "There is already an account registered with the same username");   // questa stringa
         }
 
         if(result.hasErrors()){
             model.addAttribute("user", userDTO);
-            return "admin/registermerchant";
+            return "admin/registermerchant";    // se ho appunto avuto errori ritorno la stessa pagina ma che verrà elaborata da thymelaf in modo da mostrare la stringa scritta sopra dell username già esistente
         }
 
-        userService.saveUser(userDTO);
-        return "redirect:/admin/registermerchant?success";
+        userService.saveMerchantUser(userDTO);
+        return "redirect:/admin/registermerchant?success";  // se va tutto bene faccio un redirect mettendo ?success (verrà sempre gestita dal metodo di getmapping /registermerchant di sopra il quale normalmente restituisce l'html registermerchant) in modo che thymeleaf riconosca questo parametro della query e quindi possa mostrare l'avviso di riuscita registrazione
     }
 
+
+    @Secured({"ROLE_ADMIN"})
     @GetMapping("/admin/users")
     public String users(Model model){
         model.addAttribute("users", this.userService.findAllUsers());

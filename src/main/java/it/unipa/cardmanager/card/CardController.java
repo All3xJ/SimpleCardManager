@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-@Controller // devo mettere controller, altrimenti se metto restcontroller non funziona il ritorno della stringa del templete per thymeleaf
+@Controller
 public class CardController {
     private final CardService cardService;
 
@@ -26,15 +26,15 @@ public class CardController {
 
 
     @GetMapping("/search")
-    public String searchCard(Model model, @RequestParam(name = "cardId") Long cardNumberToSearch){
+    public String searchCard(Model model, @RequestParam(name = "cardId") Long cardNumberToSearch){  // salvo valore del parametro cardId in quella variabile Long
         try {
             CardDTO card = this.cardService.findCardById(cardNumberToSearch);
             model.addAttribute("card", card);
-            model.addAttribute("cardSearchOutcome", "ok");
+            model.addAttribute("cardSearchOutcome", "ok");  // se è andato tutto bene jquery lato client darà operazione avvenuta con successo
         }catch(NoSuchElementException e){
-            model.addAttribute("cardSearchOutcome", "wrongid");
+            model.addAttribute("cardSearchOutcome", "wrongid"); // altrimenti jquery mostrerà errore di carta non trovata
         }catch(RuntimeException e){
-            model.addAttribute("cardSearchOutcome", "genericerror");
+            model.addAttribute("cardSearchOutcome", "genericerror");    // oppure un altro errore generico
         }
         return "card";
     }
@@ -61,9 +61,9 @@ public class CardController {
     @Secured({"ROLE_MERCHANT","ROLE_ADMIN"})
     @PostMapping("/merchant/editcredit")
     public ResponseEntity<Double> editCredit(@RequestParam(name = "cardId") Long cardNumberToEdit, @RequestParam(name = "amount") Double amount){
-        Double newCredit = this.cardService.editCredit(cardNumberToEdit,amount);   // se c'è qualche problema ad es carta è disabilitata, fa throw di IllegalStateException
-        this.transactionService.addTransaction(cardNumberToEdit,amount);
-        return ResponseEntity.ok(newCredit); // invece di tornare la stringa (non posso tornare semplicemente void perche in auto cerchera template che corrisponde al mapping) devo fare sto escamotage per tornare nulla. altrimenti restituisce l'intera pagina html e mi ritrovo questa nella response che arriva a jquery.
+        Double newCredit = this.cardService.editCredit(cardNumberToEdit,amount);   // se c'è qualche problema ad es carta è disabilitata, farà throw di IllegalStateException e jquery lato client farà sì che venga riportato l'errore
+        this.transactionService.addTransaction(cardNumberToEdit,amount);    // stesso qui se c'è una qualche eccezione jquery lato client darà errore
+        return ResponseEntity.ok(newCredit); // mi ritrovo il credito nella response che arriva a jquery lato client
     }
 
 
@@ -79,7 +79,7 @@ public class CardController {
     @PostMapping("/admin/createnewcard")
     public ResponseEntity<String> createNewCard(@RequestParam(name = "amount") Double amount){
             JSONObject returned = this.cardService.createNewCard(amount);
-            return ResponseEntity.ok(returned.toString());
+            return ResponseEntity.ok(returned.toString());  // ritorno json portato a stringa, che verrà interpretato da jquery lato client
     }
 
     @Secured({"ROLE_ADMIN"})
@@ -96,7 +96,7 @@ public class CardController {
 
 
     @Secured({"ROLE_ADMIN"})
-    @GetMapping("/admin/cardlist") // sta cosa è ASSURDA. praticamente se metto lo slash alla fine, QUANDO SONO NEL BROWSER DEVOOOOO METTERLOOOOOO. MENTRE SE NON LO METTO, ALLORA NEL BROWSER NOOOOOON DEVO METTERLO. TUTTO QUESTO PERCHÈ ALTRIMENTI "NON TROVA LA RISORSA"
+    @GetMapping("/admin/cardlist")
     public String getAllCards(Model model){
         List<CardDTO> cards = this.cardService.getAllCards();
         model.addAttribute("cards", cards);

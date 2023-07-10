@@ -10,16 +10,10 @@ public interface TransactionService {
 
     List<TransactionDTO> getAllTransactions();
 
-//    List<TransactionDTO> filterTransactionsDoneByMerchantId(List<TransactionDTO> transactions);
-//
-//    List<TransactionDTO> filterTransactionsDoneForCardOwnerId(List<TransactionDTO> transactions);
-
     List<TransactionDTO> findTransactionsDoneByMerchantId();
 
     CardDTO findCardByLoggedOwnerId();
 
     List<TransactionDTO> findTransactionsByCardId(Long cardId);
-
-//    List<TransactionDTO> findTransactionsDoneForCardOwnerId();
 
 }

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class TransactionController {
 
-    private TransactionService transactionService;
+    private final TransactionService transactionService;
 
     public TransactionController(TransactionService transactionService){
         this.transactionService = transactionService;
@@ -20,7 +20,6 @@ public class TransactionController {
     public String merchantTransactions(Model model){
         model.addAttribute(
                 "transactions",
-                //this.transactionService.filterTransactionsDoneByMerchantId( this.transactionService.getAllTransactions() )
                 this.transactionService.findTransactionsDoneByMerchantId()
         );
         return "merchant/merchanttransactions";
@@ -34,8 +33,6 @@ public class TransactionController {
 
         model.addAttribute(
                 "transactions",
-                ////this.transactionService.filterTransactionsDoneForCardOwnerId( this.transactionService.getAllTransactions() )
-                //this.transactionService.findTransactionsDoneForCardOwnerId()
                 this.transactionService.findTransactionsByCardId(card.getId())
         );
         return "cardowner/cardmovements";

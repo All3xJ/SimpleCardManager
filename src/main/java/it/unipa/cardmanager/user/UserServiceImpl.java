@@ -23,13 +23,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void saveUser(UserDTO userDTO) {
+    public void saveMerchantUser(UserDTO userDTO) {
         User user = new User();
         user.setUsername(userDTO.getUsername());
         // encrypt the password using spring security
-        user.setPassword(this.passwordEncoder.encode(userDTO.getPassword()));
-        Role role = this.roleRepository.findByName("ROLE_MERCHANT"); // quindi per ora salva solo merchant. sarebbe nome del role apposito nella tabella role del db
-        user.setRoles(Arrays.asList(role));
+        user.setPassword(this.passwordEncoder.encode(userDTO.getPassword()));   // creo hash con bcrypt
+        Role role = this.roleRepository.findByName("ROLE_MERCHANT"); // prendo il Role specifico di "ROLE_MERCHANT"
+        user.setRoles(Arrays.asList(role));     // quindi salva utente merchant in quanto registrazione la faccio solo di merchant. sarebbe nome del role apposito nella tabella role del db
         this.userRepository.saveAndFlush(user);
     }
 
@@ -81,13 +81,13 @@ public class UserServiceImpl implements UserService {
     public UserDTO generateAndSaveNewRandomUser() {
         User newUser = new User();
         newUser.setUsername(this.randomString());
-        String pw_plaintext = this.randomString();    // la salvo perche siccome è un utente cardowner generato e non mi serve segretezza, allora voglio passare la pw in chiaro quindi la salvo, altrimenti mi metterebbe quella encoded
+        String pw_plaintext = this.randomString();
         newUser.setPassword(this.passwordEncoder.encode(pw_plaintext));
-        newUser.setRoles((Arrays.asList(this.roleRepository.findByName("ROLE_CARDOWNER"))));
+        newUser.setRoles((Arrays.asList(this.roleRepository.findByName("ROLE_CARDOWNER"))));    // questo nuovo utente generato deve ovviamente essere CARDOWNER di ruolo
         newUser.setEnabled(true);
         this.userRepository.saveAndFlush(newUser);
         UserDTO newUserDTO = newUser.toDTO();
-        newUserDTO.setPassword(pw_plaintext);
+        newUserDTO.setPassword(pw_plaintext);   // la salvo in chiaro perche è un utente cardowner generato dall'admin, quindi devo passare le credenziali di questo nuovo cardowner all'admin loggato
         return newUserDTO;
     }
 

@@ -42,14 +42,14 @@ public class CardServiceImpl implements CardService {
 
     @Override
     public Double editCredit(Long cardId, Double amount){
-        Card cardfromdb = this.cardRepository.findById(cardId).get();
+        Card cardfromdb = this.cardRepository.findById(cardId).get();   // prelevo carta dal db (sempre se esiste altrimenti lancia eccezione)
 
-        if (cardfromdb.getEnabled()==false)
-            throw new IllegalStateException("Credit cannot be lower than 0");
+        if (cardfromdb.getEnabled()==false) // verifico se è abilitata
+            throw new IllegalStateException("Card must be enabled");
 
         Double newCredit = cardfromdb.getCredit()+amount;
         cardfromdb.setCredit(newCredit);
-        if (cardfromdb.getCredit()<0)
+        if (cardfromdb.getCredit()<0)   // verifico che credito non sia < 0
             throw new IllegalStateException("Credit cannot be lower than 0");
 
         this.cardRepository.saveAndFlush(cardfromdb); // fa l'update nel db del nuovo credito
@@ -57,27 +57,25 @@ public class CardServiceImpl implements CardService {
         return newCredit;
     }
 
-    @Override
-    public boolean checkOwnerExists(Long ownerId) {
-        if (this.userRepository.findById(ownerId).isEmpty())
-            return false;
-        return true;
-    }
+//    @Override
+//    public boolean checkOwnerExists(Long ownerId) {
+//        if (this.userRepository.findById(ownerId).isEmpty())
+//            return false;
+//        return true;
+//    }
 
     @Override
     public JSONObject createNewCard(Double amount) {
-//        if (this.checkOwnerExists(ownerId)==false)
-//            throw new NoSuchElementException("Owner not found: " + ownerId);
 
-        UserDTO newUser = this.userService.generateAndSaveNewRandomUser();
+        UserDTO newUser = this.userService.generateAndSaveNewRandomUser();  // innanzitutto genero e salvo un nuovo utente che sarà cardowner della carta che creerò in questo metodo.
         Card newCard = new Card();
         newCard.setOwner(new User());
-        newCard.getOwner().setId(newUser.getId());
+        newCard.getOwner().setId(newUser.getId());  // setto l'id del cardowner
         newCard.setCredit(amount);
         newCard.setEnabled(true);
-        this.cardRepository.saveAndFlush(newCard);
+        this.cardRepository.saveAndFlush(newCard);  // salvo nel db
 
-        JSONObject jsonObject = new JSONObject();
+        JSONObject jsonObject = new JSONObject();   // creo json
         jsonObject.put("cardId",newCard.getId());
         jsonObject.put("username",newUser.getUsername());
         jsonObject.put("pw",newUser.getPassword());
@@ -85,30 +83,27 @@ public class CardServiceImpl implements CardService {
         return jsonObject;
     }
 
-    @Override
-    public UserDTO findOwnerById(Long ownerId) {
-        return this.userRepository.findById(ownerId).get().toDTO();
-    }
+//    @Override
+//    public UserDTO findOwnerById(Long ownerId) {
+//        return this.userRepository.findById(ownerId).get().toDTO();
+//    }
 
     @Override
-    public boolean blockUnblockCard(Long cardId) {  // ritorna true se si è attivata, false se si è disattivata.
+    public boolean blockUnblockCard(Long cardId) {
         Card cardfromdb;
         try {
-            cardfromdb = this.cardRepository.findById(cardId).get();   // get fa throw di NoSuchElementException se card non esiste
+            cardfromdb = this.cardRepository.findById(cardId).get();   // get() fa throw di NoSuchElementException se card non esiste
         }catch (NoSuchElementException e){
-            throw new NoSuchElementException("Card does not exist");
+            throw new NoSuchElementException("Card does not exist");    // faccio throw con messagio personalizzato
         }
 
         cardfromdb.setEnabled(!cardfromdb.getEnabled());    // toggle attivo/disattivo
         this.cardRepository.saveAndFlush(cardfromdb);
-        return cardfromdb.getEnabled();
+        return cardfromdb.getEnabled();     // ritorna true se si è attivata, false se si è disattivata.
     }
 
     @Override
     public CardDTO findCardByOwnerId(Long ownerId) {
-//        List<Long> l = this.cardRepository.findCardIdByOwnerId(ownerId);
-//
-//        return l.get(l.size()-1) ;  // dovrebbe sempre essercene solo una visto che l'owner è sempre e solo uno. ma a scanso di equivoci prendo sempre l'ultimo item.
         return this.cardRepository.findByOwnerId(ownerId).toDTO();
     }
 }

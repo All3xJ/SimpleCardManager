@@ -17,13 +17,11 @@ public class UserController {
         this.userService = userService;
     }
 
-    // handler method to handle home page request
     @GetMapping("/index")
     public String home(){
         return "home";
     }
 
-    // handler method to handle login request
     @GetMapping("/login")
     public String login(){
         return "login";
@@ -41,6 +39,6 @@ public class UserController {
 //            response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + "/merchant/home"));
 //        }
 
-        response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + "/"));
+        response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + "/"));  // ho una home unica (dentro la quale mostro con thymeleaf certi elementi in base al ruolo dell'utente loggato), quindi non mi serve reindirizzare a niente in particolare, quindi ho commentato la parte di sopra che inizialmente usavo ma ora non serve più
     }
 }

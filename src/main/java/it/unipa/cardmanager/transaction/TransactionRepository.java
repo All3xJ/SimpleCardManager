@@ -12,5 +12,4 @@ public interface TransactionRepository extends JpaRepository<Transaction,Long> {
 
     List<Transaction> findByCardId(Long cardId);
 
-//    List<Transaction> findByCardOwnerId(Long cardOwner);
 }
