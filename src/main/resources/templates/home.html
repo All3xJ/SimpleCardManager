@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Search</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link type="text/css" rel="stylesheet" href="/css/styles.css">
+
+</head>
+<body>
+<div class="navbar">  <!--  siccome la navbar è uguale per tutti, uno può pensare che potrei metterla in un html e includerla usando jquery. purtroppo non si può perche sennò avrei tutti i pulsanti pur non essendo loggato ad esempio, perchè ste cose sec sono fatte server side.-->
+    <a href="/">Home</a>
+    <a href="/login" sec:authorize="isAnonymous()">Login</a>
+    <a href="/merchant/editcredit" sec:authorize="hasAnyRole('ROLE_MERCHANT','ROLE_ADMIN')">Make Deposit/Debit</a>
+    <a href="/cardowner/cardmovements" sec:authorize="hasRole('ROLE_CARDOWNER')">My card movements</a>
+    <a href="/merchant/merchanttransactions" sec:authorize="hasRole('ROLE_MERCHANT')">My operations done</a>
+    <a href="/admin/alltransactions" sec:authorize="hasRole('ROLE_ADMIN')">All transactions</a>
+    <a href="/admin/blockunblockcard" sec:authorize="hasRole('ROLE_ADMIN')">Block/Unblock card</a>
+    <a href="/admin/createnewcard" sec:authorize="hasRole('ROLE_ADMIN')">New card</a>
+    <a href="/admin/registermerchant" sec:authorize="hasRole('ROLE_ADMIN')">Register a Merchant</a>
+    <a href="/admin/disableenablemerchant" sec:authorize="hasRole('ROLE_ADMIN')">Disable/Enable a Merchant</a>
+    <a href="/admin/users" sec:authorize="hasRole('ROLE_ADMIN')">List of users</a>
+    <a href="/admin/cardlist" sec:authorize="hasRole('ROLE_ADMIN')">List of cards</a>
+    <a href="/logout" sec:authorize="isAuthenticated()" class="logout-button">Logout</a>
+</div>
+<div class="container">
+    <div class="form-container">
+        <form id="myForm" action="search" method="get">
+            <label >Insert card to know its credit:</label>
+            <input type="number" min="1" name="cardId"  />
+            <button type="submit" class="btn btn-secondary">Search</button>
+        </form>
+    </div>
+</div>
+<footer>
+    <p class="footer-text">CardManager App, a simple app to manage your gift cards.</p>
+</footer>
+</body>
+</html>

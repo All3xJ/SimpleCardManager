@@ -1,0 +1,237 @@
+body {      /* tutti elementi del body erediteranno questi, se non verranno sovrascritti a loro volta */
+    height: 100%;   /* prende il 100% dell'elemento genitore */
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    min-height: 400px;
+    margin-bottom: 100px;   /* per non fare gli elementi "appiccicati" */
+    clear: both;    /* assicura che corpo non si sovrapponga a elementi fluttuanti */
+    overflow-y: scroll;     /* messo per prevenire che la scrollbar di destra faccia muovere leggermente elementi orizzontalmente, come il footer che se appare la scrollbar il footer si sposta leggermente perchè la dimensione della finestra diminuisce con l'apparire della scrollbar */
+}
+
+.navbar {
+    position: fixed;    /* navbar rimarrà nella stessa posizione durante scroll della pagina */
+    top: 0;     /* posiziono navbar proprio all'inizio della pagina */
+    left: 0;    /* e all'inizio a sx */
+    background-color: #333;
+    padding: 15px;
+    width: 100%;
+    z-index: 1;     /* un elemento con z-index maggiore si metterà al di sopra di un elemento con z-index minore. l'ho messo cosi per assicurarmi che navbar sia sempre sopra altri elementi, se ci sono bug almeno la navbar è sopra */
+    display: flex;
+    justify-content: flex-start;    /* allineo elementi all'inizio della riga flex, quindi all'estremità sinistra della navbar */
+    align-items: center;    /* centro VERTICALMENTE gli elementi nella navbar */
+    flex-wrap: wrap;    /* elementi possono disporsi su piu righe se non c'è spazio se ad es rimpiccioliamo la finestra */
+    overflow: hidden;
+}
+
+.navbar a {
+    color: white;   /* colore del testo bianco */
+    text-decoration: none;      /* per rimuovere la decorazione a sottolineatura dei link */
+    margin-right: 10px;
+    padding: 5px 10px;
+    border-radius: 5px;     /* per arrotondare elementi, anche se non serve visto che è tutto in nero */
+    flex: none;     /* per evitare che elementi si ridimensionino */
+    white-space: nowrap;    /* impedisce al testo degli elementi di andare a capo se ci sono spazi */
+    font-size: 16px;
+}
+
+.navbar a:last-child {  /* seleziona ultimo elemento della navbar */
+    margin-right: 0;    /* rimuovo il margine destro solo all'ultimo elemento, visto che non serve */
+}
+
+@media (max-width: 768px) {     /* una media query permettono di applicare stili css in base a caratteristiche del device. in questo caso se il device ha schermo <= 768px di larghezza */
+    .navbar a {
+        font-size: 14px;    /* in questo caso riduco il font size */
+    }
+}
+
+.navbar .logout-button {
+
+}
+
+.container {
+    text-align: center;
+    background-color: #f2f2f2;  /* bianco come background*/
+    padding: 20px;
+    border-radius: 5px;     /* per arrotondare elementi */
+    max-width: 700px;   /* non faccio espandere piu di 700px di larghezza */
+    margin-top: 120px;  /* distanzio */
+}
+
+.table-container {
+    margin-top: 80px;
+    padding-top: 20px;
+    box-sizing: border-box; /* include padding e margin nella width e height */
+    width: 100%;
+    overflow-x: auto;   /* aggiunge barra di scorrimento orizzontale se il contenuto supera la larghezza dello schermo/finestra */
+}
+
+.table-container table {
+    width: 100%;
+}
+
+.container.table-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container.table-container h2 {
+    margin: 0;
+}
+
+.form-container{
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);   /* aggiunge ombra nel bordo dell'elemento. rgba: i primi 3 sono quantità di r,g,b e l'ultimo è trasparenza */
+    text-align: center;
+}
+
+.form-container label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.form-container input{
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;     /* aggiunge bordo grigio */
+    border-radius: 4px;     /* arrotonda bordi */
+    box-sizing: border-box;     /* include padding e margin nella width e height */
+    margin-bottom: 15px;
+    font-size: 16px;
+    appearance: none;   /* rimuove aspetto predefinito degli elementi di input */
+    background-color: #f2f2f2;
+    color: #333;    /* colore del testo */
+    cursor: pointer;    /* cursore assumerà forma di manina per indiciare che si può interagire */
+}
+
+.form-container select{
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;     /* aggiunge bordo di 1px a elementi select */
+    border-radius: 4px;     /* e arrotonda */
+    box-sizing: border-box;
+    margin-bottom: 15px;
+    font-size: 16px;
+    appearance: none;   /* rimuove aspetto di default di elementi select */
+    background-color: #f2f2f2;
+    color: #333;
+    cursor: pointer;    /* cursore assumerà forma di manina per indiciare che si può interagire */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);       /* aggiunge ombra nel bordo, sul nero. i primi 3 sono quantità di r,g,b e l'ultimo è trasparenza */
+    background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"%3E%3Cpath d="M7 10l5 5 5-5z"%3E%3C/path%3E%3C/svg%3E');    /* immagine della freccia in SVG codificata direttamente nel CSS */
+    background-repeat: no-repeat;   /* non fa ripetere immagine, in quanto ho visto su internet che se l'area di sfondo è piu grande della immagine, immagine si ripete appunto */
+    background-position: right 10px center;     /* posizione immagine messa a destra con 10px di distanza da dx, e verticalmente al centro */
+    padding-right: 30px;
+    background-size: 20px;
+}
+
+.form-container button {
+    background-color: #333;     /* grigio scuro */
+    color: white;   /* colore del testo del bottone */
+    padding: 12px 20px;
+    border: none;   /* non metto bordo, ma: */
+    border-radius: 4px;     /* ma arrotondo comunque gli angoli del bottone */
+    cursor: pointer;    /* cursore assumerà forma di manina per indiciare che si può interagire */
+    font-size: 16px;
+}
+
+.form-container button:hover {
+    background-color: rgba(51, 51, 51, 0.1);    /*  per fare il bottone traslucido quando sposto il cursore sopra di esso. sarebbe un grigio in quanto quantità di r,g,b sono tutte al 50% e inoltre la trasparenza è 0.8 su un max di 1. se l'avessi messo troppo basso tipo 0.1 sarebbe stato l'opposto ovvero troppo trasparente e quindi quasi invisibile sul bianco */
+}
+
+.form-container select option {
+    background-color: #f2f2f2; /*  colore di sfondo delle opzioni, sul bianco  */
+    color: #333; /*  colore del testo delle opzioni  */
+}
+
+.form-container select option:hover {   /* al passaggio del mouse */
+    background-color: #ccc; /*  colore di sfondo delle opzioni, grigio */
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+input[type="text"] {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+.message {
+    margin-top: 20px;
+    padding: 10px;
+    text-align: center;
+}
+.success {
+    color: green;
+    background-color: #e1f0e1;
+}
+.error {
+    color: red;
+    background-color: #f6e2e2;
+}
+
+.btn {
+    background-color: #333;
+}
+
+a {
+    color: #333;
+}
+
+footer {
+    background-color: #333;
+    padding: 20px;
+    text-align: center;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+.footer-text {
+    margin: 0;
+    font-size: 16px;
+    color: white;
+}
+
+
+
+/* stile per fare il sito rosa nero */
+
+.navbar {
+    background-color: #000;
+}
+
+
+.navbar a {
+    color: #f8c6c6;
+}
+
+
+.navbar a,
+.form-container button,
+.btn {
+    background-color: #f8c6c6;
+    color: black; /*  aggiunto per contrasto del testo  */
+}
+
+
+.form-container input[type="text"] {
+    background-color: #f8c6c6;
+    color: black; /*  aggiunto per contrasto del testo  */
+}
+
+
+.form-container select option {
+    background-color: #f8c6c6;
+    color: black; /*  aggiunto per contrasto del testo  */
+}
+
+footer {
+    background-color: #000;
+}
