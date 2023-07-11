@@ -39,13 +39,12 @@ public class UserServiceImpl implements UserService {
     public void saveMerchantUser(UserDTO userDTO) {
         User user = new User();
         user.setUsername(userDTO.getUsername());
-        // encrypt the password using spring security
         user.setPassword(this.passwordEncoder.encode(userDTO.getPassword()));   // creo hash con bcrypt
         Role role = this.roleRepository.findByName("ROLE_MERCHANT"); // prendo il Role specifico di "ROLE_MERCHANT"
         user.setRoles(Arrays.asList(role));     // quindi salva utente merchant in quanto registrazione la faccio solo di merchant. sarebbe nome del role apposito nella tabella role del db
         this.userRepository.saveAndFlush(user);
 
-        this.logService.addMerchantLog("registeredmerchant",user.getId(),"");
+        this.logService.addMerchantLog("registeredmerchant",user.getId(),"");   // chiamo questo metodo e gli mando il tipo di log, id del nuovo merchant, e "" in quanto il campo info non c'è per questa operazione perchè non devo aggiungere niente come informazione
     }
 
 
@@ -58,12 +57,6 @@ public class UserServiceImpl implements UserService {
             return null;
         }
     }
-
-//    private UserDTO mapToUserDto(User user){
-//        UserDTO userDto = new UserDTO();
-//        userDto.setUsername(user.getUsername());
-//        return userDto;
-//    }
 
     @Override
     public List<UserDTO> findAllUsers() {
@@ -97,7 +90,7 @@ public class UserServiceImpl implements UserService {
         User newUser = new User();
         newUser.setUsername(this.randomString());
         String pw_plaintext = this.randomString();
-        newUser.setPassword(this.passwordEncoder.encode(pw_plaintext));
+        newUser.setPassword(this.passwordEncoder.encode(pw_plaintext));     // creo hash con bcrypt
         newUser.setRoles((Arrays.asList(this.roleRepository.findByName("ROLE_CARDOWNER"))));    // questo nuovo utente generato deve ovviamente essere CARDOWNER di ruolo
         newUser.setEnabled(true);
         this.userRepository.saveAndFlush(newUser);
@@ -120,7 +113,7 @@ public class UserServiceImpl implements UserService {
         userfromdb.setEnabled(!userfromdb.isEnabled());    // toggle attivo/disattivo
         this.userRepository.save(userfromdb);
 
-        this.logService.addMerchantLog("disableenablemerchant",userfromdb.getId(),String.valueOf(userfromdb.isEnabled()));
+        this.logService.addMerchantLog("disableenablemerchant",userfromdb.getId(),String.valueOf(userfromdb.isEnabled()));  //chiamo questo metodo e gli mando il tipo di log, id del merchant, e lo stato attuale del merchant, ovvero true o false
 
         return userfromdb.isEnabled();
     }

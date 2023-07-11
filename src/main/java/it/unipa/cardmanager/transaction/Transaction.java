@@ -19,15 +19,14 @@ import java.util.Date;
 @NoArgsConstructor
 public class Transaction {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    // per fare auto increement e non dover specificare manualmente id quando si fa insert
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // per fare auto increement e non dover specificare manualmente id quando si fa insert
     private Long id;
 
-    @ManyToOne
+    @ManyToOne  // perchè possono esserci piu transazioni per una stessa carta
     @JoinColumn(name = "card_id", nullable = false, referencedColumnName = "id")
     private Card card;
 
-    @ManyToOne
+    @ManyToOne  // perchè possono esserci piu transazioni eseguite da uno stesso merchant
     @JoinColumn(name = "merchant_id", nullable = false, referencedColumnName = "id")
     private User merchant;
 

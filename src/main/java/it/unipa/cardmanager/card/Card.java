@@ -2,12 +2,9 @@ package it.unipa.cardmanager.card;
 
 import it.unipa.cardmanager.user.User;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Digits;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.Type;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;

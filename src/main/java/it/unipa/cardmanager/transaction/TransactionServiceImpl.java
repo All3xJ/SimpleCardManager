@@ -4,10 +4,7 @@ import it.unipa.cardmanager.card.Card;
 import it.unipa.cardmanager.card.CardDTO;
 import it.unipa.cardmanager.card.CardService;
 import it.unipa.cardmanager.user.User;
-import it.unipa.cardmanager.user.UserDTO;
-import it.unipa.cardmanager.user.UserRepository;
 import it.unipa.cardmanager.user.UserService;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
@@ -33,7 +30,6 @@ public class TransactionServiceImpl implements TransactionService{
         SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy");
         Date date = new Date();
         String humanDate = formatter.format(date);  // trasformo in stringa
-        //System.out.println(humanDate);
         Transaction newtransaction = new Transaction();
         newtransaction.setCard(new Card()); // creo nuovo oggetto card
         newtransaction.getCard().setId(cardId); // e setto id della carta in questione

@@ -1,9 +1,6 @@
 package it.unipa.cardmanager.log;
 
 import it.unipa.cardmanager.card.Card;
-import it.unipa.cardmanager.card.CardService;
-import it.unipa.cardmanager.transaction.Transaction;
-import it.unipa.cardmanager.transaction.TransactionDTO;
 import it.unipa.cardmanager.user.User;
 import it.unipa.cardmanager.user.UserService;
 import org.springframework.context.annotation.Lazy;
@@ -27,7 +24,7 @@ public class LogServiceImpl implements LogService{
     }
 
     @Override
-    public void addCardLog(String logType, Long cardId, String info) {
+    public void addCardLog(String logType, Long cardId, String info) {  // info di newcard è l'amount, info di blockunblockcard è lo stato true/false
         SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy");
         Date date = new Date();
         String humanDate = formatter.format(date);  // trasformo in stringa
@@ -35,7 +32,7 @@ public class LogServiceImpl implements LogService{
         newlog.setLogType(logType);
         newlog.setCard(new Card()); // creo nuovo oggetto card
         newlog.getCard().setId(cardId); // e setto id della carta in questione
-        newlog.setMerchant(null);
+        newlog.setMerchant(null);   // merchant null visto che è un operazione di carta (newcard o blockunblockcard)
         newlog.setAdmin(new User());
         newlog.getAdmin().setId(this.userService.getCurrentUser().getId());  // stesso discorso per adminId che sta aggiungendo questo log
         newlog.setInfo(info);
@@ -44,7 +41,7 @@ public class LogServiceImpl implements LogService{
     }
 
     @Override
-    public void addMerchantLog(String logType, Long merchantId, String info) {
+    public void addMerchantLog(String logType, Long merchantId, String info) {  // info di disableenablemerchant è lo stato true/false. non c'è info per registeredmerchant
         SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy");
         Date date = new Date();
         String humanDate = formatter.format(date);  // trasformo in stringa
@@ -57,12 +54,12 @@ public class LogServiceImpl implements LogService{
         newlog.getMerchant().setId(merchantId);
         newlog.setAdmin(new User());
         newlog.getAdmin().setId(this.userService.getCurrentUser().getId());  // stesso discorso per adminId che sta aggiungendo questo log
-        newlog.setInfo(info);   // setto
+        newlog.setInfo(info);
         newlog.setDateCreated(date);
         this.logRepository.saveAndFlush(newlog);
     }
 
-    private List<LogDTO> convertLogsListToDTO(List<Log> logs){   // trasforma lista di Transaction a lista di DTO
+    private List<LogDTO> convertLogsListToDTO(List<Log> logs){   // trasforma lista di Log a lista di LogDTO
         List<LogDTO> logDTOList = new LinkedList<>();
         for (Log log: logs)
             logDTOList.add(log.toDTO());
@@ -73,7 +70,7 @@ public class LogServiceImpl implements LogService{
     @Override
     public List<LogDTO> getAllLogs() {
         List<LogDTO> sortList = this.convertLogsListToDTO(this.logRepository.findAll());
-        sortList.sort((tran1, tran2) -> tran2.getDateCreated().compareTo(tran1.getDateCreated()));  // faccio il sorting delle transazioni in ordine decrescente di timestamp in modo da visualizzare nell'html prima quelle piu recenti
+        sortList.sort((tran1, tran2) -> tran2.getDateCreated().compareTo(tran1.getDateCreated()));  // faccio il sorting dei logs in ordine decrescente di timestamp in modo da visualizzare nell'html prima quelli piu recenti
 
         return sortList;
     }

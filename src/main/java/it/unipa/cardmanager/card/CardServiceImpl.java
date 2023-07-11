@@ -3,14 +3,12 @@ package it.unipa.cardmanager.card;
 import it.unipa.cardmanager.log.LogService;
 import it.unipa.cardmanager.user.User;
 import it.unipa.cardmanager.user.UserDTO;
-import it.unipa.cardmanager.user.UserRepository;
 import it.unipa.cardmanager.user.UserService;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -72,13 +70,6 @@ public class CardServiceImpl implements CardService {
         return truncated;
     }
 
-//    @Override
-//    public boolean checkOwnerExists(Long ownerId) {
-//        if (this.userRepository.findById(ownerId).isEmpty())
-//            return false;
-//        return true;
-//    }
-
     @Override
     public JSONObject createNewCard(Double amount) {
 
@@ -95,15 +86,10 @@ public class CardServiceImpl implements CardService {
         jsonObject.put("username",newUser.getUsername());
         jsonObject.put("pw",newUser.getPassword());
 
-        this.logService.addCardLog("newcard",newCard.getId(),amount.toString());
+        this.logService.addCardLog("newcard",newCard.getId(),amount.toString());    // passo al metodo il tipo di log, l'id della carta, e il credito iniziale
 
         return jsonObject;
     }
-
-//    @Override
-//    public UserDTO findOwnerById(Long ownerId) {
-//        return this.userRepository.findById(ownerId).get().toDTO();
-//    }
 
     @Override
     public boolean blockUnblockCard(Long cardId) {
@@ -117,7 +103,7 @@ public class CardServiceImpl implements CardService {
         cardfromdb.setEnabled(!cardfromdb.getEnabled());    // toggle attivo/disattivo
         this.cardRepository.saveAndFlush(cardfromdb);
 
-        this.logService.addCardLog("blockunblockcard",cardfromdb.getId(),cardfromdb.getEnabled().toString());
+        this.logService.addCardLog("blockunblockcard",cardfromdb.getId(),cardfromdb.getEnabled().toString());   // passo al metodo il tipo di log, l'id della carta, e lo stato true/false
 
         return cardfromdb.getEnabled();     // ritorna true se si è attivata, false se si è disattivata.
     }

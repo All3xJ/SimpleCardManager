@@ -4,9 +4,9 @@ import java.util.List;
 
 public interface LogService {
 
-    void addCardLog(String logType,Long cardId,String info);    // non metto admin_id e date perche tanto admin_id lo trovo da dentro e date pure
+    void addCardLog(String logType,Long cardId,String info);
 
-    void addMerchantLog(String logType,Long merchantId,String info);            // same
+    void addMerchantLog(String logType,Long merchantId,String info);
 
     List<LogDTO> getAllLogs();
 }
