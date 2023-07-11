@@ -41,7 +41,7 @@
         <tr th:each="log : ${logs}">
             <td th:text="${log.getAdminUsername()}"></td>
             <td th:text="${log.getLogType()}"></td>
-            <td th:utext="${log.getCustomInfoForTable()}"></td>
+            <td th:utext="${log.getCustomInfoForTable()}"></td> <!-- richiamo questo metodo che crea info per ogni diverso log. qua uso utext perche cosi posso scrivere da java <br> affinche venga interpretato da thymeleaf come html e andare quindi a capo -->
             <td th:text="${log.getDateCreated()}"></td>
         </tr>
         </tbody>
