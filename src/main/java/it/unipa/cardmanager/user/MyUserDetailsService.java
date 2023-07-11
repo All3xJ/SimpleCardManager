@@ -1,5 +1,6 @@
 package it.unipa.cardmanager.user;
 
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -22,10 +23,11 @@ public class MyUserDetailsService implements UserDetailsService {   // classe ch
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
         User user = userRepository.findByUsername(username);    // entity presa dal db
 
         if (user == null){  // se utente non esiste
-            throw new UsernameNotFoundException("Invalid username or password.");
+            throw new BadCredentialsException("Invalid username or password.");
         } else if (!user.isEnabled()) {     // controllo se utente è disabilitato
             throw new DisabledException("User not enabled");
         } else {

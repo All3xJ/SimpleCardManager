@@ -23,12 +23,12 @@ public class Transaction {
     // per fare auto increement e non dover specificare manualmente id quando si fa insert
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "card_id", nullable = false, unique = true, referencedColumnName = "id")
+    @ManyToOne
+    @JoinColumn(name = "card_id", nullable = false, referencedColumnName = "id")
     private Card card;
 
-    @OneToOne
-    @JoinColumn(name = "merchant_id", nullable = false, unique = true, referencedColumnName = "id")
+    @ManyToOne
+    @JoinColumn(name = "merchant_id", nullable = false, referencedColumnName = "id")
     private User merchant;
 
     @Column(nullable = false)

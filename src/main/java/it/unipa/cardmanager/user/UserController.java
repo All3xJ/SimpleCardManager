@@ -51,7 +51,7 @@ public class UserController {
         return "/access_denied";
     }
 
-    @GetMapping("/login?error")
+    @GetMapping("/login_error")
     public String loginError(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession(false);
         String errorMessage = null;

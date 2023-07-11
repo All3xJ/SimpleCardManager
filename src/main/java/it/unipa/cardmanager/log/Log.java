@@ -6,7 +6,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Cascade;
 
 import java.util.Date;
 
@@ -24,11 +23,11 @@ public class Log {
     @Column(nullable = false)
     private String logType;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "card_id", nullable = true, unique = false, referencedColumnName = "id")  // può essere null, nel caso in cui sia una operazione di creazione/dsabilito di un merchant, in cui quindi carta non c'entra e non ci sarà. inoltre obv non deve essere unique
     private Card card;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "admin_id", nullable = false, unique = false, referencedColumnName = "id")   // obv non deve essere unique
     private User admin;
 

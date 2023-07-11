@@ -22,7 +22,7 @@ public class Card {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
+    @OneToOne   // per come l'ho pensato io, un cardowner viene generato con coppia username e password e con una cardId. quindi a una carta è associato un cardowner.
     @JoinColumn(name="owner_id", unique = true, referencedColumnName = "id")
     private User owner;
 

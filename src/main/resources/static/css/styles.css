@@ -228,12 +228,6 @@ footer {
 }
 
 
-.form-container input[type="text"] {
-    background-color: #f8c6c6;
-    color: black;
-}
-
-
 .form-container select option {
     background-color: #f8c6c6;
     color: black;
