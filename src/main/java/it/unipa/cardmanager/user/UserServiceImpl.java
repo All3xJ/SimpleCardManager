@@ -1,6 +1,8 @@
 package it.unipa.cardmanager.user;
 
 import it.unipa.cardmanager.card.Card;
+import it.unipa.cardmanager.log.LogService;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -14,12 +16,23 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
 
+    private final LogService logService;
+
     public UserServiceImpl(UserRepository userRepository,
                            RoleRepository roleRepository,
-                           PasswordEncoder passwordEncoder) {
+                           PasswordEncoder passwordEncoder,
+                           LogService logService) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
+        this.logService = logService;
+    }
+
+    @Override
+    public UserDTO getCurrentUser(){   // per ottenere utente attuale, che esso sia admin o merchant o cardowner
+        String username = SecurityContextHolder.getContext().getAuthentication().getName(); // trovo l'username del merchant che in questo momento è loggato e ha fatto richiesta
+        User user = this.userRepository.findByUsername(username);
+        return user.toDTO();
     }
 
     @Override
@@ -31,6 +44,8 @@ public class UserServiceImpl implements UserService {
         Role role = this.roleRepository.findByName("ROLE_MERCHANT"); // prendo il Role specifico di "ROLE_MERCHANT"
         user.setRoles(Arrays.asList(role));     // quindi salva utente merchant in quanto registrazione la faccio solo di merchant. sarebbe nome del role apposito nella tabella role del db
         this.userRepository.saveAndFlush(user);
+
+        this.logService.addMerchantLog("registeredmerchant",user.getUsername());
     }
 
 
@@ -104,6 +119,9 @@ public class UserServiceImpl implements UserService {
 
         userfromdb.setEnabled(!userfromdb.isEnabled());    // toggle attivo/disattivo
         this.userRepository.save(userfromdb);
+
+        this.logService.addMerchantLog("disableenablemerchant",userfromdb.getUsername());
+
         return userfromdb.isEnabled();
     }
 

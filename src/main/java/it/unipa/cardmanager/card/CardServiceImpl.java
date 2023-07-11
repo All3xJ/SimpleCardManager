@@ -1,5 +1,6 @@
 package it.unipa.cardmanager.card;
 
+import it.unipa.cardmanager.log.LogService;
 import it.unipa.cardmanager.user.User;
 import it.unipa.cardmanager.user.UserDTO;
 import it.unipa.cardmanager.user.UserRepository;
@@ -16,16 +17,15 @@ import java.util.NoSuchElementException;
 
 @Service
 public class CardServiceImpl implements CardService {
-    private CardRepository cardRepository;
+    private final CardRepository cardRepository;
+    private final UserService userService;
 
-    private UserRepository userRepository;
+    private final LogService logService;
 
-    private UserService userService;
-
-    public CardServiceImpl(CardRepository cardRepository, UserRepository userRepository, UserService userService){
+    public CardServiceImpl(CardRepository cardRepository, UserService userService, LogService logService){
         this.cardRepository = cardRepository;
-        this.userRepository = userRepository;
         this.userService = userService;
+        this.logService = logService;
     }
 
     @Override
@@ -95,6 +95,8 @@ public class CardServiceImpl implements CardService {
         jsonObject.put("username",newUser.getUsername());
         jsonObject.put("pw",newUser.getPassword());
 
+        this.logService.addCardLog("newcard",newCard.getId(),amount.toString());
+
         return jsonObject;
     }
 
@@ -114,6 +116,9 @@ public class CardServiceImpl implements CardService {
 
         cardfromdb.setEnabled(!cardfromdb.getEnabled());    // toggle attivo/disattivo
         this.cardRepository.saveAndFlush(cardfromdb);
+
+        this.logService.addCardLog("blockunblockcard",cardfromdb.getId(),cardfromdb.getEnabled().toString());
+
         return cardfromdb.getEnabled();     // ritorna true se si è attivata, false se si è disattivata.
     }
 
