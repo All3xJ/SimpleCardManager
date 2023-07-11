@@ -25,13 +25,13 @@
     <a href="/logout" sec:authorize="isAuthenticated()" class="logout-button">Logout</a>
 </div>
 <div class="container table-container">
-    <div class="row col-md-10">
+    <div class="row col-md-10" >
         <h2 >Report of all logs</h2>
     </div>
     <table class="table table-bordered table-hover" th:if="${logs.isEmpty()==false}">
         <thead class="table-dark">
         <tr>
-            <th>Admin ID</th>
+            <th>Admin username</th>
             <th>Log type</th>
             <th>Card ID</th>
             <th>Info</th>
@@ -40,7 +40,7 @@
         </thead>
         <tbody>
         <tr th:each="log : ${logs}">
-            <td th:text="${log.getAdminId()}"></td>
+            <td th:text="${log.getAdminUsername()}"></td>
             <td th:text="${log.getLogType()}"></td>
             <td th:text="${log.customGetCardId()}"></td>
             <td th:text="${log.getInfo()}"></td>

@@ -49,11 +49,12 @@ public class LogServiceImpl implements LogService{
         String humanDate = formatter.format(date);  // trasformo in stringa
         Log newlog = new Log();
         newlog.setLogType(logType);
-        newlog.setCard(new Card());
-        newlog.getCard().setId(null); // e setto id della carta in questione
+//        newlog.setCard(new Card());
+//        newlog.getCard().setId(null);
+        newlog.setCard(null);   // commentato quello subito sopra perchè produce errore perchè cardId non può essere null nell'entity Card. quindi faccio direttamente cosi settandolo a null in modo diretto e senza passare da Card
         newlog.setAdmin(new User());
         newlog.getAdmin().setId(this.userService.getCurrentUser().getId());  // stesso discorso per adminId che sta aggiungendo questo log
-        newlog.setInfo(info);
+        newlog.setInfo(info);   // setto
         newlog.setDateCreated(date);
         this.logRepository.saveAndFlush(newlog);
     }

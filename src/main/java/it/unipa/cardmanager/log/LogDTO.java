@@ -25,6 +25,8 @@ public class LogDTO {
 
     private Date dateCreated;
 
+    private String adminUsername;
+
     public Long customGetCardId(){
         try{
             return this.getCardId();

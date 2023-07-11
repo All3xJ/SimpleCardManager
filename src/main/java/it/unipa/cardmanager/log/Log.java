@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
 
 import java.util.Date;
 
@@ -40,9 +41,9 @@ public class Log {
 
     public LogDTO toDTO(){
         try {
-            return new LogDTO(this.id, this.logType, this.getCard().getId(), this.admin.getId(), this.info, this.dateCreated);
+            return new LogDTO(this.id, this.logType, this.getCard().getId(), this.admin.getId(), this.info, this.dateCreated, this.admin.getUsername());
         }catch (NullPointerException e){
-            return new LogDTO(this.id, this.logType, null, this.admin.getId(), this.info, this.dateCreated);
+            return new LogDTO(this.id, this.logType, null, this.admin.getId(), this.info, this.dateCreated, this.admin.getUsername());
         }
     }
 }

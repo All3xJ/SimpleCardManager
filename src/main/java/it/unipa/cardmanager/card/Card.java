@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Digits;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Type;
 
 import java.math.RoundingMode;
