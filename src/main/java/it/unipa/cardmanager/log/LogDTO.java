@@ -19,6 +19,8 @@ public class LogDTO {
 
     private Long cardId;
 
+    private Long merchantId;
+
     private Long adminId;
 
     private String info;    // info di newcard e blockunblockcard è amount. info di registeredmerchant e disableenablemerchant è merchant_id
@@ -27,11 +29,20 @@ public class LogDTO {
 
     private String adminUsername;
 
-    public Long customGetCardId(){
-        try{
-            return this.getCardId();
-        }catch (NullPointerException e){
-            return null;
-        }
+    private String merchantUsername;
+
+    public String getCustomInfoForTable(){
+        String logtype = this.logType;
+
+        if(logtype.equals("newcard"))
+            return "cardId: "+this.cardId+"<br>amount: "+this.info;
+        else if (logtype.equals("blockunblockcard"))
+            return "cardId: "+this.cardId+"<br>state: "+(this.info.equals("true") ? "enabled" : "disabled");
+        else if (logtype.equals("registeredmerchant"))
+            return "merchantusername: "+this.merchantUsername;
+        else if (logtype.equals("disableenablemerchant"))
+            return "merchantusername: "+this.merchantUsername+"<br>state: "+(this.info.equals("true") ? "enabled" : "disabled");
+
+        return "";
     }
 }

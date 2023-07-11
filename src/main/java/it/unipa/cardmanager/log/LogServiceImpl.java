@@ -35,6 +35,7 @@ public class LogServiceImpl implements LogService{
         newlog.setLogType(logType);
         newlog.setCard(new Card()); // creo nuovo oggetto card
         newlog.getCard().setId(cardId); // e setto id della carta in questione
+        newlog.setMerchant(null);
         newlog.setAdmin(new User());
         newlog.getAdmin().setId(this.userService.getCurrentUser().getId());  // stesso discorso per adminId che sta aggiungendo questo log
         newlog.setInfo(info);
@@ -43,7 +44,7 @@ public class LogServiceImpl implements LogService{
     }
 
     @Override
-    public void addMerchantLog(String logType, String info) {
+    public void addMerchantLog(String logType, Long merchantId, String info) {
         SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy");
         Date date = new Date();
         String humanDate = formatter.format(date);  // trasformo in stringa
@@ -52,6 +53,8 @@ public class LogServiceImpl implements LogService{
 //        newlog.setCard(new Card());
 //        newlog.getCard().setId(null);
         newlog.setCard(null);   // commentato quello subito sopra perchè produce errore perchè cardId non può essere null nell'entity Card. quindi faccio direttamente cosi settandolo a null in modo diretto e senza passare da Card
+        newlog.setMerchant(new User());
+        newlog.getMerchant().setId(merchantId);
         newlog.setAdmin(new User());
         newlog.getAdmin().setId(this.userService.getCurrentUser().getId());  // stesso discorso per adminId che sta aggiungendo questo log
         newlog.setInfo(info);   // setto

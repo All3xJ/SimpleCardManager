@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
         user.setRoles(Arrays.asList(role));     // quindi salva utente merchant in quanto registrazione la faccio solo di merchant. sarebbe nome del role apposito nella tabella role del db
         this.userRepository.saveAndFlush(user);
 
-        this.logService.addMerchantLog("registeredmerchant",user.getUsername());
+        this.logService.addMerchantLog("registeredmerchant",user.getId(),"");
     }
 
 
@@ -120,7 +120,7 @@ public class UserServiceImpl implements UserService {
         userfromdb.setEnabled(!userfromdb.isEnabled());    // toggle attivo/disattivo
         this.userRepository.save(userfromdb);
 
-        this.logService.addMerchantLog("disableenablemerchant",userfromdb.getUsername());
+        this.logService.addMerchantLog("disableenablemerchant",userfromdb.getId(),String.valueOf(userfromdb.isEnabled()));
 
         return userfromdb.isEnabled();
     }

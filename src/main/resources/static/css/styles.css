@@ -10,7 +10,7 @@ body {      /* tutti elementi del body erediteranno questi, se non verranno sovr
 }
 
 .navbar {
-    position: fixed;    /* navbar rimarrà nella stessa posizione durante scroll della pagina */
+    position: sticky;    /* navbar rimarrà nella stessa posizione durante scroll della pagina */
     top: 0;     /* posiziono navbar proprio all'inizio della pagina */
     left: 0;    /* e all'inizio a sx */
     background-color: #333;
@@ -57,20 +57,23 @@ body {      /* tutti elementi del body erediteranno questi, se non verranno sovr
     padding: 20px;
     border-radius: 5px;     /* per arrotondare elementi */
     max-width: 700px;   /* non faccio espandere piu di 700px di larghezza */
-    margin-top: 120px;  /* distanzio */
+    margin-top: 60px;  /* distanzio */
 }
 
 .table-container {
-    margin-top: 80px;
+    margin-top: 50px;
     padding-top: 20px;
     box-sizing: border-box; /* include padding e margin nella width e height */
     width: 100%;
-    overflow-x: auto;   /* aggiunge barra di scorrimento orizzontale se il contenuto supera la larghezza dello schermo/finestra */
+    /*overflow-x: auto;   !* aggiunge barra di scorrimento orizzontale se il contenuto supera la larghezza dello schermo/finestra *!*/
+    max-width: 900px; /* modifica il valore per regolare la larghezza massima */
+    overflow: auto;
 }
 
 .table-container table {
-    width: 100%;
-    margin-bottom: 40px;
+    width: auto;
+    margin-bottom: 20px;
+    /*font-size: 18px; !* modifica il valore per regolare la dimensione del testo nella tabella *!*/
 }
 
 .container.table-container {
@@ -80,11 +83,16 @@ body {      /* tutti elementi del body erediteranno questi, se non verranno sovr
 }
 
 .container.table-container h2 {
-    margin-top: 41px;
+    margin-top: 20px;
 }
 
 .table-container table th {
     white-space: nowrap;
+}
+
+.table-container table td {
+    white-space: nowrap;
+    vertical-align: middle;
 }
 
 .form-container{

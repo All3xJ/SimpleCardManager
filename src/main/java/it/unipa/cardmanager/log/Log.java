@@ -28,6 +28,10 @@ public class Log {
     private Card card;
 
     @ManyToOne
+    @JoinColumn(name = "merchant_id", nullable = true, unique = false, referencedColumnName = "id")  // può essere null, nel caso in cui sia una operazione di creazione/dsabilito di un merchant, in cui quindi carta non c'entra e non ci sarà. inoltre obv non deve essere unique
+    private User merchant;
+
+    @ManyToOne
     @JoinColumn(name = "admin_id", nullable = false, unique = false, referencedColumnName = "id")   // obv non deve essere unique
     private User admin;
 
@@ -40,9 +44,9 @@ public class Log {
 
     public LogDTO toDTO(){
         try {
-            return new LogDTO(this.id, this.logType, this.getCard().getId(), this.admin.getId(), this.info, this.dateCreated, this.admin.getUsername());
-        }catch (NullPointerException e){
-            return new LogDTO(this.id, this.logType, null, this.admin.getId(), this.info, this.dateCreated, this.admin.getUsername());
+            return new LogDTO(this.id, this.logType, null, this.merchant.getId(), this.admin.getId(), this.info, this.dateCreated, this.admin.getUsername(), this.merchant.getUsername());
+        } catch (NullPointerException e){
+            return new LogDTO(this.id, this.logType, this.card.getId(), null, this.admin.getId(), this.info, this.dateCreated, this.admin.getUsername(), null);
         }
     }
 }

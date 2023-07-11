@@ -33,7 +33,6 @@
         <tr>
             <th>Admin username</th>
             <th>Log type</th>
-            <th>Card ID</th>
             <th>Info</th>
             <th>Timestamp</th>
         </tr>
@@ -42,8 +41,7 @@
         <tr th:each="log : ${logs}">
             <td th:text="${log.getAdminUsername()}"></td>
             <td th:text="${log.getLogType()}"></td>
-            <td th:text="${log.customGetCardId()}"></td>
-            <td th:text="${log.getInfo()}"></td>
+            <td th:utext="${log.getCustomInfoForTable()}"></td>
             <td th:text="${log.getDateCreated()}"></td>
         </tr>
         </tbody>
