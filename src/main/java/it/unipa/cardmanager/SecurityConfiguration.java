@@ -43,6 +43,7 @@ public class SecurityConfiguration {
                 ).formLogin(
                         form -> form
                                 .loginPage("/login")
+                                .failureUrl("/login_error") // fa redirect a questo url se c'è problema nel login, e verrà gestito dall'apposito metodo del controller
                                 .loginProcessingUrl("/login")
                                 .defaultSuccessUrl("/success") // dove deve portarmi a login avvenuto con successo
                                 .permitAll()

@@ -36,15 +36,8 @@ public class UserAdminController {
 
         UserDTO existingUser = userService.findByUsername(userDTO.getUsername());
 
-        if(existingUser != null && existingUser.getUsername() != null && !existingUser.getUsername().isEmpty()){    // se effettivamente trovo già un username uguale nel db, deve fallire
-            result.rejectValue("username", null,    // inserisco nel field di errore che elaborerà thymeleaf:
-                    "There is already an account registered with the same username");   // questa stringa
-        }
-
-        if(result.hasErrors()){
-            model.addAttribute("user", userDTO);
-            return "admin/registermerchant";    // se ho appunto avuto errori ritorno la stessa pagina ma che verrà elaborata da thymelaf in modo da mostrare la stringa scritta sopra dell username già esistente
-        }
+        if(existingUser != null && existingUser.getUsername() != null && !existingUser.getUsername().isEmpty()) // se c'è un problema nella registrazione
+            return "redirect:/admin/registermerchant?error";    // fa redirect mettendo ?error e poi verrà visualizzato errore dal motore thymeleaf della pagina registermerchant.html
 
         userService.saveMerchantUser(userDTO);
         return "redirect:/admin/registermerchant?success";  // se va tutto bene faccio un redirect mettendo ?success (verrà sempre gestita dal metodo di getmapping /registermerchant di sopra il quale normalmente restituisce l'html registermerchant) in modo che thymeleaf riconosca questo parametro della query e quindi possa mostrare l'avviso di riuscita registrazione

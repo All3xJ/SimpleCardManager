@@ -15,8 +15,11 @@
     <div class="row">
         <div class="col-md-6 offset-md-3">
 
-            <div th:if="${param.error}">    <!-- se c'è stato un redirect a /login?error significa che il login è fallito e quindi questo param.error sarà true, e consente di far visualizzare l'errore SE c'è stato un errore nel login -->
-                <div class="alert alert-danger">Invalid Username or Password, or user is disabled.</div>
+<!--            <div th:if="${param.error}">    &lt;!&ndash; se c'è stato un redirect a /login?error significa che il login è fallito e quindi questo param.error sarà true, e consente di far visualizzare l'errore SE c'è stato un errore nel login &ndash;&gt;-->
+<!--                <div class="alert alert-danger">Invalid Username or Password, or user is disabled.</div>-->
+<!--            </div>-->
+            <div> <!-- ho commentato quello di sopra perche non disambiguava tra quando login fallisce perche utente ha sbagliato credenziali, e quando invece fallisce perche utente è disabilitato. e quindi anzichè fare ?error ho reindirzzato a error_login gestendolo nell'apposito metodo controller-->
+                <div class="alert alert-danger" th:if="${errorMessage}" th:text="${errorMessage}"></div>
             </div>
             <div th:if="${param.logout}">   <!-- se c'è stato un redirect a /login?logout significa che c'è stato logout e quindi questo param.logout sarà true, e consente di far visualizzare la scritta di avvenuto logout -->
                 <div class="alert alert-success"> You have been logged out.</div>

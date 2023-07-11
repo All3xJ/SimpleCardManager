@@ -33,7 +33,7 @@ public class CardController {
             model.addAttribute("cardSearchOutcome", "ok");  // se è andato tutto bene jquery lato client darà operazione avvenuta con successo
         }catch(NoSuchElementException e){
             model.addAttribute("cardSearchOutcome", "wrongid"); // altrimenti jquery mostrerà errore di carta non trovata
-        }catch(RuntimeException e){
+        }catch(Exception e){
             model.addAttribute("cardSearchOutcome", "genericerror");    // oppure un altro errore generico
         }
         return "card";
@@ -73,7 +73,7 @@ public class CardController {
             jsonObject.put("result",e.getMessage());    // darà "Card not found"
         }catch(IllegalStateException e){
             jsonObject.put("result",e.getMessage());    // darà "Card must be enabled" o "Credit cannot be lower than 0"
-        }catch(RuntimeException e){
+        }catch(Exception e){
             jsonObject.put("result", "Generic error");    // oppure un altro errore generico
         }
 

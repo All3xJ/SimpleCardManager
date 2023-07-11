@@ -217,21 +217,27 @@ footer {
 .form-container button,
 .btn {
     background-color: #f8c6c6;
-    color: black; /*  aggiunto per contrasto del testo  */
+    color: black;
 }
 
 
 .form-container input[type="text"] {
     background-color: #f8c6c6;
-    color: black; /*  aggiunto per contrasto del testo  */
+    color: black;
 }
 
 
 .form-container select option {
     background-color: #f8c6c6;
-    color: black; /*  aggiunto per contrasto del testo  */
+    color: black;
 }
 
 footer {
     background-color: #000;
+}
+
+
+.form-container button:hover,
+.btn:hover {
+    background-color: #e69b9b; /* modifica il colore di sfondo quando il mouse è sopra il bottone, altrimenti è quasi invisibile */
 }

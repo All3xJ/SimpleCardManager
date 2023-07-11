@@ -25,7 +25,7 @@ public class Card {
     @JoinColumn(name="owner_id", unique = true, referencedColumnName = "id")
     private User owner;
 
-    //@Column(nullable = false)
+    @Column(nullable = false)
 //    @Digits(integer = 8 /*precision*/, fraction = 2 /*scale*/)
     private Double credit;
 
