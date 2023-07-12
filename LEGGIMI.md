@@ -1,4 +1,4 @@
-Per avviare, eseguire il file `schema.sql` che creerà e popolerà il database con alcune informazioni iniziali.
+Per avviare, eseguire il file `schema.sql` (all'interno di src/main/resources/) che creerà e popolerà il database con alcune informazioni iniziali.
 Dopodiché, modificare il file `application.properties` con le informazioni del proprio DBMS (modificando IP, porta, username e password),
 e finalmente si può compilare e avviare il progetto Spring. Infine, aprire il browser su `localhost:8080`.
 

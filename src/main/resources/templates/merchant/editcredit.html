@@ -44,13 +44,13 @@
     <a href="/">Home</a>
     <a href="/login" sec:authorize="isAnonymous()">Login</a>
     <a href="/merchant/editcredit" sec:authorize="hasAnyRole('ROLE_MERCHANT','ROLE_ADMIN')">Make Deposit/Debit</a>
-    <a href="/cardowner/cardmovements" sec:authorize="hasRole('ROLE_CARDOWNER')">My card movements</a>
-    <a href="/merchant/merchanttransactions" sec:authorize="hasRole('ROLE_MERCHANT')">My operations done</a>
-    <a href="/admin/alltransactions" sec:authorize="hasRole('ROLE_ADMIN')">All transactions</a>
     <a href="/admin/createnewcard" sec:authorize="hasRole('ROLE_ADMIN')">New card</a>
     <a href="/admin/blockunblockcard" sec:authorize="hasRole('ROLE_ADMIN')">Block/Unblock card</a>
     <a href="/admin/registermerchant" sec:authorize="hasRole('ROLE_ADMIN')">Register a Merchant</a>
     <a href="/admin/disableenablemerchant" sec:authorize="hasRole('ROLE_ADMIN')">Disable/Enable a Merchant</a>
+    <a href="/cardowner/cardmovements" sec:authorize="hasRole('ROLE_CARDOWNER')">My card movements</a>
+    <a href="/merchant/merchanttransactions" sec:authorize="hasRole('ROLE_MERCHANT')">My operations done</a>
+    <a href="/admin/alltransactions" sec:authorize="hasRole('ROLE_ADMIN')">All transactions</a>
     <a href="/admin/alllogs" sec:authorize="hasRole('ROLE_ADMIN')">Logs report</a>
     <a href="/admin/users" sec:authorize="hasRole('ROLE_ADMIN')">List of users</a>
     <a href="/admin/cardlist" sec:authorize="hasRole('ROLE_ADMIN')">List of cards</a>
