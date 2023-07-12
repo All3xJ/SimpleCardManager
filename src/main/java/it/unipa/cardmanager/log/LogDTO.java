@@ -37,11 +37,11 @@ public class LogDTO {
         if(logtype.equals("newcard"))
             return "cardId: "+this.cardId+"<br>amount: "+this.info;
         else if (logtype.equals("blockunblockcard"))
-            return "cardId: "+this.cardId+"<br>state: "+(this.info.equals("true") ? "enabled" : "disabled");
+            return "cardId: "+this.cardId+"<br>state: "+(this.info.equals("true") ? "<span style=\"color:green\">enabled</span>" : "<span style=\"color:red\">disabled</span>");
         else if (logtype.equals("registeredmerchant"))
             return "merchantusername: "+this.merchantUsername;
         else if (logtype.equals("disableenablemerchant"))
-            return "merchantusername: "+this.merchantUsername+"<br>state: "+(this.info.equals("true") ? "enabled" : "disabled");
+            return "merchantusername: "+this.merchantUsername+"<br>state: "+(this.info.equals("true") ? "<span style=\"color:green\">enabled" : "<span style=\"color:red\">disabled");
 
         return "";
     }

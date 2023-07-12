@@ -36,7 +36,7 @@ public class Transaction {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
-    private Date dateCreated;   // questo camelCase IMPONE che nel db sia owner_id LOL
+    private Date dateCreated;
 
     public TransactionDTO toDTO() {
         return new TransactionDTO(this.id, this.card.getId(), this.merchant.getId(), this.amount, this.dateCreated, this.merchant.getUsername());

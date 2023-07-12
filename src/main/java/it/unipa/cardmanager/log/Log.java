@@ -39,7 +39,7 @@ public class Log {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
-    private Date dateCreated;   // questo camelCase IMPONE che nel db sia owner_id LOL
+    private Date dateCreated;   // questo camelCase impone che nel db sia date_created LOL
 
     public LogDTO toDTO(){
         try {   // se è un entity Log relativa a un operazione di un merchant (disableenablemerchant o registeredmerchant) allora:
