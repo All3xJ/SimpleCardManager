@@ -5,6 +5,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.Map;
+
 @Controller
 public class LogController {
 
@@ -21,6 +23,8 @@ public class LogController {
                 "logs",
                 this.logService.getAllLogs()
         );
+        Map<String,Object> a = model.asMap();
+        System.out.println(a.keySet());
         return "admin/alllogs";
     }
 }

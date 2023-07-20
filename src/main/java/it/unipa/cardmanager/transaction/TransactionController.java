@@ -6,6 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.Map;
+
 @Controller
 public class TransactionController {
 
@@ -22,6 +24,8 @@ public class TransactionController {
                 "transactions",
                 this.transactionService.findTransactionsDoneByMerchantId()
         );
+        Map<String,Object> a = model.asMap();
+        System.out.println(a.keySet());
         return "merchant/merchanttransactions";
     }
 
@@ -35,6 +39,8 @@ public class TransactionController {
                 "transactions",
                 this.transactionService.findTransactionsByCardId(card.getId())
         );
+        Map<String,Object> a = model.asMap();
+        System.out.println(a.keySet());
         return "cardowner/cardmovements";
     }
 
@@ -45,6 +51,8 @@ public class TransactionController {
                 "transactions",
                 this.transactionService.getAllTransactions()
         );
+        Map<String,Object> a = model.asMap();
+        System.out.println(a.keySet());
         return "admin/alltransactions";
     }
 }

@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
+
 
 @Controller
 public class CardController {
@@ -36,6 +38,8 @@ public class CardController {
         }catch(Exception e){
             model.addAttribute("cardSearchOutcome", "genericerror");    // oppure un altro errore generico
         }
+        Map<String,Object> a = model.asMap();
+        System.out.println(a.keySet());
         return "card";
     }
 
@@ -114,6 +118,8 @@ public class CardController {
     public String getAllCards(Model model){
         List<CardDTO> cards = this.cardService.getAllCards();
         model.addAttribute("cards", cards);
+        Map<String,Object> a = model.asMap();
+        System.out.println(a.keySet());
         return "admin/cardlist";
     }
 }
