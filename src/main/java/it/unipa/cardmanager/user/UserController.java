@@ -71,8 +71,6 @@ public class UserController {
             }
         }
         model.addAttribute("errorMessage", errorMessage);
-        Map<String,Object> a = model.asMap();
-        System.out.println(a.keySet());
         return "login";
     }
 
@@ -84,8 +82,6 @@ public class UserController {
     @GetMapping("/admin/registermerchant")
     public String showRegistrationForm(Model model){
         model.addAttribute("user", new UserDTO());
-        Map<String,Object> a = model.asMap();
-        System.out.println(a.keySet());
         return "admin/registermerchant";
     }
 
@@ -109,8 +105,6 @@ public class UserController {
     @GetMapping("/admin/users")
     public String users(Model model){
         model.addAttribute("users", this.userService.findAllUsers());
-        Map<String,Object> a = model.asMap();
-        System.out.println(a.keySet());
         return "admin/users";
     }
 

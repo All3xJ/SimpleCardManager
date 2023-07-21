@@ -38,8 +38,6 @@ public class CardController {
         }catch(Exception e){
             model.addAttribute("cardSearchOutcome", "genericerror");    // oppure un altro errore generico
         }
-        Map<String,Object> a = model.asMap();
-        System.out.println(a.keySet());
         return "card";
     }
 
@@ -118,8 +116,9 @@ public class CardController {
     public String getAllCards(Model model){
         List<CardDTO> cards = this.cardService.getAllCards();
         model.addAttribute("cards", cards);
-        Map<String,Object> a = model.asMap();
-        System.out.println(a.keySet());
+//        Map<String,Object> a = model.asMap();
+//        System.out.println(a.keySet());
+        // ho commentato perchè l'avevo messo solo per dimostrare che sto model era relativo solo a sta richiesta, non è che conserva cose di altre robe. poi si cancellano sti attributi e si crea altro model in auto
         return "admin/cardlist";
     }
 }

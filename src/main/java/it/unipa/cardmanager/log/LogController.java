@@ -23,8 +23,6 @@ public class LogController {
                 "logs",
                 this.logService.getAllLogs()
         );
-        Map<String,Object> a = model.asMap();
-        System.out.println(a.keySet());
         return "admin/alllogs";
     }
 }
